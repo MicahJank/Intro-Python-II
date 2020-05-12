@@ -8,7 +8,3 @@ class Player:
     
     def __str__(self):
         return self.name
-
-player = Player("Sir Micah the brave", "Outside")
-
-print(player)
