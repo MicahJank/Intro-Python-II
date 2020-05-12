@@ -52,3 +52,9 @@ player = Player("Player", room["outside"])
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+selection = 0
+while selection != "q":
+    print(player.current_room)
+    print("What would you like to do?")
+    print()
