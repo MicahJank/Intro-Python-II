@@ -11,4 +11,4 @@ class Room:
         self.w_to = "There is nothing to the west"
 
     def __str__(self):
-        return f'{self.name} \n {self.description}'
+        return f'Current Room: {self.name} \n {self.description}'
