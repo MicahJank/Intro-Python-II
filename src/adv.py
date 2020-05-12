@@ -1,5 +1,6 @@
 from room import Room
 from player import Player
+from commands import commands
 
 # Declare all the rooms
 
@@ -57,4 +58,5 @@ selection = 0
 while selection != "q":
     print(player.current_room)
     print("What would you like to do?")
-    print()
+
+    selection = input()
