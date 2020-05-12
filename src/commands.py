@@ -7,3 +7,7 @@ commands = {
     "w": "Go West",
     "q": "Quit"
 }
+
+def print_commands():
+    for key, value in commands.items():
+        print(f"{key}: {value}")
