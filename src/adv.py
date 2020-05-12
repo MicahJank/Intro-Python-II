@@ -1,6 +1,7 @@
 from room import Room
 from player import Player
 from commands import commands, print_commands
+import os
 
 # Declare all the rooms
 
@@ -61,3 +62,18 @@ while selection != "q":
     print_commands()
 
     selection = input("Enter Command: ")
+
+    if selection == "n" or selection == "e" or selection == "s" or selection == "w":
+        player.move(selection)
+    elif selection == "q":
+        print("Exiting...so long Adventurer...")
+        input('Press any key to continue...')
+        os.system('clear')
+    else:
+        print("Please make sure you are choosing a valid command.")
+        input('Press any key to continue...')
+        os.system('clear')
+
+    os.system('clear')
+       
+
