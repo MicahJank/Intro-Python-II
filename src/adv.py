@@ -36,22 +36,16 @@ font = pygame.font.Font('freesansbold.ttf', 24)
 
 # Declare all the rooms
 room = {
-    'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons"),
+    'outside':  Room("The Outside Gate Entrance",
+                     "To the north lies the hidden wizard tower"),
 
-    'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east."""),
+    'foyer':    Room("The Hidden Wizard Tower", """Doesn't look so hidden to me..."""),
 
-    'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
-into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm."""),
+    'overlook': Room("The Death Plains", """Think of it like one of those endless runner games, eventually you die."""),
 
-    'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-to north. The smell of gold permeates the air."""),
+    'narrow':   Room("The Snowy Mountains", """Did you know it snows here?"""),
 
-    'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
-chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south."""),
+    'treasure': Room("Dark Forest", """I heard crazy barbarians like to roam around here at night."""),
 
     'gamestart': Room("Start of The Game",
                         "Your adventure awaits...")
@@ -127,9 +121,13 @@ while start_scene:
             elif event.key == pygame.K_RETURN:
                 next_dialogue = ''
                 for index, text in enumerate(dialogue):
-                    if text == current_dialogue:
-                        print(text, current_dialogue)
+                    if text == current_dialogue and index + 1 < len(dialogue):
                         next_dialogue = dialogue[index + 1]
+               
+                if current_dialogue == dialogue[len(dialogue) - 1]:
+                    gameActive = True
+                    player.current_room = room["outside"] # change to start room
+                    start_scene = False
                 current_dialogue = next_dialogue
                        
 
@@ -151,7 +149,6 @@ while start_scene:
     clock.tick(60)
 
 
-selection = 0
 # Main game loop
 while gameActive:
     keys = pygame.key.get_pressed()
@@ -161,7 +158,13 @@ while gameActive:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_q:
                 gameActive = False # game ends when user presses q key
+            elif event.key == pygame.K_RETURN:
+                print("Working")
 
+    screen.fill(BLACK)
+    bg_image = pygame.image.load(player.current_room.img)
+    # background image
+    screen.blit(bg_image, (0,0))
 
     pygame.display.flip()
 
