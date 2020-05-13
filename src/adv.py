@@ -2,25 +2,6 @@ from room import Room
 from player import Player
 from commands import commands, print_commands
 import os
-import pygame
-
-pygame.init()
-
-# controls the update rate of the game screen
-clock = pygame.time.Clock()
-
-# Open a new window
-size = (700, 500)
-screen = pygame.display.set_mode(size)
-pygame.display.set_caption("Legend of Lambda")
-
-# will determine when the game is running or when it should close the game window
-gameActive = True
-
-# defined colors
-BLACK = ( 0, 0, 0)
-RED = ( 255, 0, 0)
-WHITE = ( 255, 255, 255)
 
 # Declare all the rooms
 room = {
@@ -75,38 +56,22 @@ player = Player("Player", room["outside"])
 
 selection = 0
 # Main game loop
-while gameActive:
-    for event in pygame.event.get(): # gets the even from the user
-        if event.type == pygame.QUIT:
-            gameActive = False # game ends when user quits
-    
-    # screen should start out initially black
-    screen.fill(BLACK)
+while selection != 'q':
+    print(player.current_room)
+    print("What would you like to do?")
+    print_commands()
 
+    selection = input("Enter Command: ")
 
-    pygame.display.flip()
+    if selection == "n" or selection == "e" or selection == "s" or selection == "w":
+        player.move(selection)
+    elif selection == "q":
+        print("Exiting...so long Adventurer...")
+        input('Press any key to continue...')
+        os.system('clear')
+    else:
+        print("Please make sure you are choosing a valid command.")
+        input('Press any key to continue...')
+        os.system('clear')
 
-    clock.tick(60)
-
-    # print(player.current_room)
-    # print("What would you like to do?")
-    # print_commands()
-
-    # selection = input("Enter Command: ")
-
-    # if selection == "n" or selection == "e" or selection == "s" or selection == "w":
-    #     player.move(selection)
-    # elif selection == "q":
-    #     print("Exiting...so long Adventurer...")
-    #     input('Press any key to continue...')
-    #     os.system('clear')
-    # else:
-    #     print("Please make sure you are choosing a valid command.")
-    #     input('Press any key to continue...')
-    #     os.system('clear')
-
-    # os.system('clear')
-       
-# after game ends we can stop the game engine
-pygame.quit()
-
+    os.system('clear')
