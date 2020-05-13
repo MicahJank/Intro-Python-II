@@ -15,12 +15,18 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Legend of Lambda")
 
 # will determine when the game is running or when it should close the game window
-gameActive = True
+gameActive = False
+
+# in the beginning the user shouldnt be able to do the normal commands so i need to set this to
+# keep track of where they are in the game loop
+start_scene = True
+
 
 # defined colors
 BLACK = ( 0, 0, 0)
 RED = ( 255, 0, 0)
 WHITE = ( 255, 255, 255)
+TEXT_COLOR = (255,255,0)
 
 # define images
 bg_image = pygame.image.load('../assets/skeletonbg.png')
@@ -77,29 +83,84 @@ room['gamestart'].img = '../assets/skeletonbg.png'
 #
 
 # function that will write the text to the screen
-def write(text, location=(70, 430), color=(WHITE)):
-    screen.blit(font.render(text, True, color), location)
+def write(text, location=(70, 430), color=(TEXT_COLOR)):
+    if len(text) >= 49:
+        line1 = text[0:49]
+        line2 = text[49:]
+        screen.blit(font.render(line1, True, color), location)
+        screen.blit(font.render(line2, True, color), (70, 460))
+    else:
+        screen.blit(font.render(text, True, color), location)
+    
 
 # Make a new player object that is currently in the 'outside' room.
 player = Player("Player", room["gamestart"])
+
+# the available dialogue
+dialogue = [
+    "Hello Adventurer...",
+     "Before you begin your adventure...",
+    "Let me note a few things",
+    "1. The developer of this game made this with about a weeks worth or python knowledge",
+    "...so yeah, it sucks...",
+    "2. You can move in any of the 4 directions by pressing that directions letter on your keyboard",
+    "...so for example, if you want to go north press the 'n' key, if you want to go south press the 's' key",
+    "You can also quit the game at anytime by pressing the 'q' key",
+    "3. Thats it...",
+    "What, were you expecting more?",
+    "I told you this game sucks didn't I?",
+    "Good luck adventurer..."
+]
+
+# the current text being displayed to the user
+current_dialogue = dialogue[0]
+
+# start scene
+while start_scene:
+    keys = pygame.key.get_pressed()
+    for event in pygame.event.get(): # gets the even from the user
+        if event.type == pygame.QUIT:
+            start_scene = False # game ends when user closes the window
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_q:
+                start_scene = False # game ends when user presses q key
+            elif event.key == pygame.K_RETURN:
+                next_dialogue = ''
+                for index, text in enumerate(dialogue):
+                    if text == current_dialogue:
+                        print(text, current_dialogue)
+                        next_dialogue = dialogue[index + 1]
+                current_dialogue = next_dialogue
+                       
+
+
+
+    # screen should start out initially black
+    screen.fill(BLACK)
+    bg_image = pygame.image.load(player.current_room.img)
+    # background image
+    screen.blit(bg_image, (0,0))
+    pygame.draw.rect(screen, BLACK, [10, 400, 680, 90], 0)
+
+    # writes the dialogue to the screen
+    write(current_dialogue)
+        
+
+    pygame.display.flip()
+
+    clock.tick(60)
 
 
 selection = 0
 # Main game loop
 while gameActive:
+    keys = pygame.key.get_pressed()
     for event in pygame.event.get(): # gets the even from the user
         if event.type == pygame.QUIT:
-            gameActive = False # game ends when user quits
-    
-    # screen should start out initially black
-    screen.fill(BLACK)
-
-    bg_image = pygame.image.load(player.current_room.img)
-    # background image
-    screen.blit(bg_image, (0,0))
-    pygame.draw.rect(screen, BLACK, [10, 400, 680, 90], 0)
-    write("Hello Adventurer...")
-
+            gameActive = False # game ends when user closes the window
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_q:
+                gameActive = False # game ends when user presses q key
 
 
     pygame.display.flip()
