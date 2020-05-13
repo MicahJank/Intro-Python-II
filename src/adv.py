@@ -22,6 +22,12 @@ BLACK = ( 0, 0, 0)
 RED = ( 255, 0, 0)
 WHITE = ( 255, 255, 255)
 
+# define images
+bg_image = pygame.image.load('../assets/skeletonbg.png')
+
+# font for the game
+font = pygame.font.Font('freesansbold.ttf', 24)
+
 # Declare all the rooms
 room = {
     'outside':  Room("Outside Cave Entrance",
@@ -40,6 +46,9 @@ to north. The smell of gold permeates the air."""),
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south."""),
+
+    'gamestart': Room("Start of The Game",
+                        "Your adventure awaits...")
 }
 
 
@@ -54,24 +63,26 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+
+# Link the background images for each room
+room['outside'].img = '../assets/gate-sm.png'
+room['foyer'].img = '../assets/wizardtower.png'
+room['overlook'].img = '../assets/sunsetintheswamp.png'
+room['narrow'].img = '../assets/dark forest trees.png'
+room['treasure'].img = '../assets/snow_5.png'
+room['gamestart'].img = '../assets/skeletonbg.png'
+
 #
 # Main
 #
 
+# function that will write the text to the screen
+def write(text, location=(70, 430), color=(WHITE)):
+    screen.blit(font.render(text, True, color), location)
+
 # Make a new player object that is currently in the 'outside' room.
-player = Player("Player", room["outside"])
+player = Player("Player", room["gamestart"])
 
-
-# Write a loop that:
-#
-# * Prints the current room name
-# * Prints the current description (the textwrap module might be useful here).
-# * Waits for user input and decides what to do.
-#
-# If the user enters a cardinal direction, attempt to move to the room there.
-# Print an error message if the movement isn't allowed.
-#
-# If the user enters "q", quit the game.
 
 selection = 0
 # Main game loop
@@ -82,6 +93,13 @@ while gameActive:
     
     # screen should start out initially black
     screen.fill(BLACK)
+
+    bg_image = pygame.image.load(player.current_room.img)
+    # background image
+    screen.blit(bg_image, (0,0))
+    pygame.draw.rect(screen, BLACK, [10, 400, 680, 90], 0)
+    write("Hello Adventurer...")
+
 
 
     pygame.display.flip()
