@@ -6,6 +6,22 @@ import pygame
 
 pygame.init()
 
+# controls the update rate of the game screen
+clock = pygame.time.Clock()
+
+# Open a new window
+size = (700, 500)
+screen = pygame.display.set_mode(size)
+pygame.display.set_caption("Legend of Lambda")
+
+# will determine when the game is running or when it should close the game window
+gameActive = True
+
+# defined colors
+BLACK = ( 0, 0, 0)
+RED = ( 255, 0, 0)
+WHITE = ( 255, 255, 255)
+
 # define images
 bg_image = pygame.image.load('../assets/skeletonbg.png')
 
