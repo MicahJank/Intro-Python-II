@@ -5,6 +5,7 @@ commands = {
     "e": "Go East",
     "s": "Go South",
     "w": "Go West",
+    "c": "Look for items",
     "q": "Quit"
 }
 
