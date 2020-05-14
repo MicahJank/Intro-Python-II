@@ -3,6 +3,7 @@ from player import Player
 from commands import commands, print_commands
 import os
 import pygame
+from item import Item
 
 pygame.init()
 
@@ -52,8 +53,16 @@ room = {
 }
 
 
-# Link rooms together
+# Declare all items
+gold_coins = Item("Coins", "Ever wonder who coined the term coined? - Yeah me neither...")
+long_sword = Item("Longsword", "It's a sword and its uh...long.")
+potato_sack = Item("PotatoSack", "This thing is heavier than it looks...")
+wizard_hat = Item("Hat", "A wizard hat, if you put it on...does that make you a wizard?")
+rocks = Item("Rocks", "Not really sure why you need these...?")
+ring = Item("Ring", "There are markings on the ring...its some form of Elvish, you cant read it.")
 
+
+# Link rooms together
 room['outside'].n_to = room['foyer']
 room['foyer'].s_to = room['outside']
 room['foyer'].n_to = room['overlook']
