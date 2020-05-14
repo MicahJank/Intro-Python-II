@@ -69,28 +69,62 @@ player = Player("Player", room["outside"])
 #
 # If the user enters "q", quit the game.
 
+
+# Checks the command the user entered
+def check_command(command):
+    splt_command = command.split()
+    # if they enter 1 command we check only the 1 word commands
+    if len(splt_command) == 1:
+        if command == "n" or command == "e" or command == "s" or command == "w":
+            player.move(command)
+        elif command == "q":
+            os.system('clear')
+            print("Exiting...so long Adventurer...")
+            input('Press any key to continue...')
+        elif command == "c":
+            os.system('clear')
+            print("You scout the area for hidden treasures...")
+            input('Press any key to continue...')
+            player.current_room.print_items()
+            input('Press any key to continue...')
+        elif command == "i" or command == "inventory":
+            os.system('clear')
+            player.print_inventory()
+            input('Press any key to continue...')
+        else:
+            os.system('clear')
+            print("Please make sure you are entering a valid command.")
+            input('Press any key to continue...')
+    # if the user enters a 2 word command we will check those here
+    elif len(splt_command) == 2:
+        if splt_command[0] == "take" or splt_command[0] == 'get':
+            # removes the item from the room and stores the removed item in the variable
+            removed_item = player.current_room.remove_item(splt_command[1])
+            if type(removed_item) != str:
+                # now since we have the item from the room we can add it to the players inventory
+                player.add_item(removed_item)
+            input('Press any key to continue...')
+        elif splt_command[0] == "drop":
+            # dropping the item is like the opposite of taking it - we need to remove the item from the players inventory
+            # and then add it to the current rooms item list
+            removed_item = player.remove_item(splt_command[1])
+            if type(removed_item) != str:
+                player.current_room.add_item(removed_item)
+            input('Press any key to continue...')
+    else:
+        os.system('clear')
+        print("Please make sure you are entering a valid command.")
+        input('Press any key to continue...')
+
+
+
 selection = 0
 # Main game loop
 while selection != 'q':
+    os.system('clear')
     print(player.current_room)
     print("What would you like to do?")
     print_commands()
 
     selection = input("Enter Command: ")
-
-    if selection == "n" or selection == "e" or selection == "s" or selection == "w":
-        player.move(selection)
-    elif selection == "q":
-        print("Exiting...so long Adventurer...")
-        input('Press any key to continue...')
-        os.system('clear')
-    elif selection == "c":
-        print("You scout the area for hidden treasures...")
-        input('Press any key to continue...')
-        player.current_room.print_items()
-    else:
-        print("Please make sure you are choosing a valid command.")
-        input('Press any key to continue...')
-        os.system('clear')
-
-    os.system('clear')
+    check_command(selection)

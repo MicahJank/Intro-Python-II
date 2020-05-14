@@ -6,6 +6,9 @@ commands = {
     "s": "Go South",
     "w": "Go West",
     "c": "Look for items",
+    "take/get [item name]": "Take the item if its in the room",
+    "drop [item name]": "Drop the item if it is in your inventory",
+    "i/inventory": "Check what items are in your inventory",
     "q": "Quit"
 }
 
