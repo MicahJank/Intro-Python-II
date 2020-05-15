@@ -111,7 +111,7 @@ def write(text, location=(70, 430), color=(TEXT_COLOR)):
 player = Player("Player", room["gamestart"])
 
 # the current text being displayed to the user
-current_dialogue = start_dialogue[0]
+current_dialogue = start_dialogue.get("initial")[0]
 
 # start scene
 while start_scene:
@@ -124,11 +124,11 @@ while start_scene:
                 start_scene = False # game ends when user presses q key
             elif event.key == pygame.K_RETURN:
                 next_dialogue = ''
-                for index, text in enumerate(start_dialogue):
-                    if text == current_dialogue and index + 1 < len(start_dialogue):
-                        next_dialogue = start_dialogue[index + 1]
+                for index, text in enumerate(start_dialogue.get("initial")):
+                    if text == current_dialogue and index + 1 < len(start_dialogue.get("initial")):
+                        next_dialogue = start_dialogue.get("initial")[index + 1]
                
-                if current_dialogue == start_dialogue[len(start_dialogue) - 1]:
+                if current_dialogue == start_dialogue.get("initial")[len(start_dialogue.get("initial")) - 1]:
                     gameActive = True
                     player.current_room = room["gate"] # change to start room
                     start_scene = False
@@ -154,7 +154,24 @@ while start_scene:
 
 # dialogue loop
 # while dialogue_loop:
-    
+#     keys = pygame.key.get_pressed()
+#     for event in pygame.event.get(): # gets the even from the user
+#         if event.type == pygame.QUIT:
+#             start_scene = False # game ends when user closes the window
+#         elif event.type == pygame.KEYDOWN:
+#             if event.key == pygame.K_q:
+#                 start_scene = False # game ends when user presses q key
+#             elif event.key == pygame.K_RETURN:
+#                 next_dialogue = ''
+#                 for index, text in enumerate(start_dialogue.get("initial")):
+#                     if text == current_dialogue and index + 1 < len(start_dialogue.get("initial")):
+#                         next_dialogue = start_dialogue.get("initial")[index + 1]
+               
+#                 if current_dialogue == start_dialogue.get("initial")[len(start_dialogue.get("initial")) - 1]:
+#                     gameActive = True
+#                     player.current_room = room["gate"] # change to start room
+#                     start_scene = False
+#                 current_dialogue = next_dialogue
 
 
 # check key inputs from player
