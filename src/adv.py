@@ -4,6 +4,7 @@ from commands import commands, print_commands
 import os
 import pygame
 from item import Item
+from dialogue import *
 
 pygame.init()
 
@@ -21,6 +22,16 @@ gameActive = False
 # in the beginning the user shouldnt be able to do the normal commands so i need to set this to
 # keep track of where they are in the game loop
 start_scene = True
+
+# a while loop for dialogue is needs since i dont want the user to be moving between rooms when dialogue is happening
+dialogue_loop = False
+
+# different scenes need different dialogue - there should be a boolean value for each that can set off those different dialogues
+gate_scene = False
+wizard_tower_scene = False
+death_plains_scene = False
+snow_mountains_scene = False
+dark_forest_scene = False
 
 
 # defined colors
@@ -99,24 +110,8 @@ def write(text, location=(70, 430), color=(TEXT_COLOR)):
 # Make a new player object that is currently in the 'outside' room.
 player = Player("Player", room["gamestart"])
 
-# the available dialogue
-dialogue = [
-    "Hello Adventurer...",
-     "Before you begin your adventure...",
-    "Let me note a few things",
-    "1. The developer of this game made this with about a weeks worth or python knowledge",
-    "...so yeah, it sucks...",
-    "2. You can move in any of the 4 directions by pressing that directions letter on your keyboard",
-    "...so for example, if you want to go north press the 'n' key, if you want to go south press the 's' key",
-    "You can also quit the game at anytime by pressing the 'q' key",
-    "3. Thats it...",
-    "What, were you expecting more?",
-    "I told you this game sucks didn't I?",
-    "Good luck adventurer..."
-]
-
 # the current text being displayed to the user
-current_dialogue = dialogue[0]
+current_dialogue = start_dialogue[0]
 
 # start scene
 while start_scene:
@@ -129,11 +124,11 @@ while start_scene:
                 start_scene = False # game ends when user presses q key
             elif event.key == pygame.K_RETURN:
                 next_dialogue = ''
-                for index, text in enumerate(dialogue):
-                    if text == current_dialogue and index + 1 < len(dialogue):
-                        next_dialogue = dialogue[index + 1]
+                for index, text in enumerate(start_dialogue):
+                    if text == current_dialogue and index + 1 < len(start_dialogue):
+                        next_dialogue = start_dialogue[index + 1]
                
-                if current_dialogue == dialogue[len(dialogue) - 1]:
+                if current_dialogue == start_dialogue[len(start_dialogue) - 1]:
                     gameActive = True
                     player.current_room = room["gate"] # change to start room
                     start_scene = False
@@ -157,6 +152,10 @@ while start_scene:
 
     clock.tick(60)
 
+# dialogue loop
+# while dialogue_loop:
+    
+
 
 # check key inputs from player
 def check_keydown_input(key):
@@ -177,14 +176,14 @@ while gameActive:
         elif event.type == pygame.KEYDOWN:
             check_keydown_input(event.key)
             
-
     screen.fill(BLACK)
     # background image
     bg_image = pygame.image.load(player.current_room.img)
     screen.blit(bg_image, (0,0))
 
-    pygame.display.flip()
 
+
+    pygame.display.flip()
     clock.tick(60)
 
     # print(player.current_room)
