@@ -3,6 +3,7 @@ from player import Player
 from item import Item
 from commands import commands, print_commands
 import os
+from sys import platform
 
 # Declare all the rooms
 room = {
@@ -69,6 +70,12 @@ player = Player("Player", room["outside"])
 #
 # If the user enters "q", quit the game.
 
+# clears the console using platform specific language
+def clear_console():
+    if platform == "win32":
+        os.system('cls')
+    else:
+        os.system('clear')
 
 # Checks the command the user entered
 def check_command(command):
@@ -78,21 +85,21 @@ def check_command(command):
         if command == "n" or command == "e" or command == "s" or command == "w":
             player.move(command)
         elif command == "q":
-            os.system('clear')
+            clear_console()
             print("Exiting...so long Adventurer...")
             input('Press any key to continue...')
         elif command == "c":
-            os.system('clear')
+            clear_console()
             print("You scout the area for hidden treasures...")
             input('Press any key to continue...')
             player.current_room.print_items()
             input('Press any key to continue...')
         elif command == "i" or command == "inventory":
-            os.system('clear')
+            clear_console()
             player.print_inventory()
             input('Press any key to continue...')
         else:
-            os.system('clear')
+            clear_console()
             print("Please make sure you are entering a valid command.")
             input('Press any key to continue...')
     # if the user enters a 2 word command we will check those here
@@ -112,7 +119,7 @@ def check_command(command):
                 player.current_room.add_item(removed_item)
             input('Press any key to continue...')
     else:
-        os.system('clear')
+        clear_console()
         print("Please make sure you are entering a valid command.")
         input('Press any key to continue...')
 
@@ -121,7 +128,7 @@ def check_command(command):
 selection = 0
 # Main game loop
 while selection != 'q':
-    os.system('clear')
+    clear_console()
     print(player.current_room)
     print("What would you like to do?")
     print_commands()
