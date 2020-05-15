@@ -37,16 +37,16 @@ font = pygame.font.Font('freesansbold.ttf', 24)
 
 # Declare all the rooms
 room = {
-    'outside':  Room("The Outside Gate Entrance",
+    'gate':  Room("The Outside Gate Entrance",
                      "To the north lies the hidden wizard tower"),
 
-    'foyer':    Room("The Hidden Wizard Tower", """Doesn't look so hidden to me..."""),
+    'wizard_tower':    Room("The Hidden Wizard Tower", """Doesn't look so hidden to me..."""),
 
-    'overlook': Room("The Death Plains", """Think of it like one of those endless runner games, eventually you die."""),
+    'death_plains': Room("The Death Plains", """Think of it like one of those endless runner games, eventually you die."""),
 
-    'narrow':   Room("The Snowy Mountains", """Did you know it snows here?"""),
+    'snow_mountains':   Room("The Snowy Mountains", """Did you know it snows here?"""),
 
-    'treasure': Room("Dark Forest", """I heard crazy barbarians like to roam around here at night."""),
+    'dark_forest': Room("Dark Forest", """I heard crazy barbarians like to roam around here at night."""),
 
     'gamestart': Room("Start of The Game",
                         "Your adventure awaits...")
@@ -63,22 +63,22 @@ ring = Item("Ring", "There are markings on the ring...its some form of Elvish, y
 
 
 # Link rooms together
-room['outside'].n_to = room['foyer']
-room['foyer'].s_to = room['outside']
-room['foyer'].n_to = room['overlook']
-room['foyer'].e_to = room['narrow']
-room['overlook'].s_to = room['foyer']
-room['narrow'].w_to = room['foyer']
-room['narrow'].n_to = room['treasure']
-room['treasure'].s_to = room['narrow']
+room['gate'].n_to = room['wizard_tower']
+room['wizard_tower'].s_to = room['gate']
+room['wizard_tower'].n_to = room['death_plains']
+room['death_plains'].s_to = room['wizard_tower']
+room['wizard_tower'].e_to = room['snow_mountains']
+room['snow_mountains'].w_to = room['wizard_tower']
+room['wizard_tower'].w_to = room['dark_forest']
+room['dark_forest'].e_to = room['wizard_tower']
 
 
 # Link the background images for each room
-room['outside'].img = '../assets/gate-sm.png'
-room['foyer'].img = '../assets/wizardtower.png'
-room['overlook'].img = '../assets/sunsetintheswamp.png'
-room['narrow'].img = '../assets/dark forest trees.png'
-room['treasure'].img = '../assets/snow_5.png'
+room['gate'].img = '../assets/gate-sm.png'
+room['wizard_tower'].img = '../assets/wizardtower.png'
+room['death_plains'].img = '../assets/sunsetintheswamp.png'
+room['snow_mountains'].img = '../assets/dark forest trees.png'
+room['dark_forest'].img = '../assets/snow_5.png'
 room['gamestart'].img = '../assets/skeletonbg.png'
 
 #
@@ -135,7 +135,7 @@ while start_scene:
                
                 if current_dialogue == dialogue[len(dialogue) - 1]:
                     gameActive = True
-                    player.current_room = room["outside"] # change to start room
+                    player.current_room = room["gate"] # change to start room
                     start_scene = False
                 current_dialogue = next_dialogue
                        
