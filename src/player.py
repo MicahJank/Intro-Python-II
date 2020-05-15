@@ -19,7 +19,6 @@ class Player:
         try:
             self.current_room = getattr(self.current_room, next_room_dir)
         except:
-            print("You cant go that way, try going in a different direction.")
-            input('Press any key to continue...')
+            return
 
         

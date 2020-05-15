@@ -149,6 +149,16 @@ while start_scene:
     clock.tick(60)
 
 
+# check key inputs from player
+def check_keydown_input(key):
+    if key == pygame.K_q:
+        gameActive = False # game ends when user presses q key
+    elif key == pygame.K_RETURN:
+        print("Working")
+    elif key == pygame.K_n or key == pygame.K_s or key == pygame.K_w or key == pygame.K_e:
+        # player.move needs a string representation of the key - NOT a keycode
+        player.move(pygame.key.name(key))
+
 # Main game loop
 while gameActive:
     keys = pygame.key.get_pressed()
@@ -156,14 +166,12 @@ while gameActive:
         if event.type == pygame.QUIT:
             gameActive = False # game ends when user closes the window
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_q:
-                gameActive = False # game ends when user presses q key
-            elif event.key == pygame.K_RETURN:
-                print("Working")
+            check_keydown_input(event.key)
+            
 
     screen.fill(BLACK)
-    bg_image = pygame.image.load(player.current_room.img)
     # background image
+    bg_image = pygame.image.load(player.current_room.img)
     screen.blit(bg_image, (0,0))
 
     pygame.display.flip()
